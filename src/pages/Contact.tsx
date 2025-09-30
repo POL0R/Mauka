@@ -123,7 +123,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Call Us</h3>
-                  <p className="text-gray-600">+91 XXXXX XXXXX</p>
+                  <p className="text-gray-600">+91 8058411111</p>
                   <p className="text-sm text-gray-500">Mon-Fri, 9:00 AM - 6:00 PM IST</p>
                 </div>
               </div>
@@ -230,7 +230,7 @@ const Contact: React.FC = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="input-field"
-                      placeholder="+91 XXXXX XXXXX"
+                      placeholder="+91 8058411111"
                     />
                   </div>
                 </div>

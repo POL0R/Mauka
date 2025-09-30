@@ -831,14 +831,14 @@ const Signup: React.FC = () => {
                     Organization Phone *
                   </label>
                   <input
-                    type="tel"
-                    name="organizationPhone"
-                    value={formData.organizationPhone}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                    placeholder="+91 XXXXX XXXXX"
-                    required
-                  />
+                  type="tel"
+                  name="organizationPhone"
+                  value={formData.organizationPhone}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="+91 8058411111"
+                  required
+                />
                 </div>
 
                 <div>
@@ -1042,7 +1042,7 @@ const Signup: React.FC = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                    placeholder="+91 XXXXX XXXXX"
+                    placeholder="+91 8058411111"
                   />
                 </div>
 
