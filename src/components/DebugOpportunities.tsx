@@ -32,7 +32,7 @@ const DebugOpportunities: React.FC = () => {
         .eq('verification_status', 'approved')
 
       // 4. Check opportunities from approved NGOs
-      const approvedNGOIds = approvedNGOs?.map(ngo => ngo.user_id) || []
+      const approvedNGOIds = approvedNGOs?.map((ngo: any) => ngo.user_id) || []
       const { data: visibleOpportunities, error: visibleError } = await supabase
         .from('volunteer_opportunities')
         .select('*')
@@ -41,8 +41,8 @@ const DebugOpportunities: React.FC = () => {
 
       setDebugInfo({
         userEmail: user.email,
-        ngoStatus: ngoData?.verification_status || 'No NGO application found',
-        ngoName: ngoData?.organization_name || 'N/A',
+        ngoStatus: (ngoData as any)?.verification_status || 'No NGO application found',
+        ngoName: (ngoData as any)?.organization_name || 'N/A',
         myOpportunities: opportunities?.length || 0,
         myOpportunitiesList: opportunities || [],
         approvedNGOsCount: approvedNGOs?.length || 0,
@@ -110,7 +110,7 @@ const DebugOpportunities: React.FC = () => {
             {debugInfo.myOpportunitiesList.length > 0 && (
               <div className="mt-2">
                 <p className="text-sm font-medium">Opportunity Details:</p>
-                {debugInfo.myOpportunitiesList.map((opp: any, index: number) => (
+                {debugInfo.myOpportunitiesList.map((opp: any) => (
                   <div key={opp.id} className="mt-1 p-2 bg-gray-50 rounded text-sm">
                     <p><strong>Title:</strong> {opp.title}</p>
                     <p><strong>Status:</strong> {opp.status}</p>
@@ -132,7 +132,7 @@ const DebugOpportunities: React.FC = () => {
           {debugInfo.visibleOpportunitiesList.length > 0 && (
             <div className="bg-white p-4 rounded-lg border">
               <h4 className="font-medium text-gray-900 mb-2">All Visible Opportunities</h4>
-              {debugInfo.visibleOpportunitiesList.map((opp: any, index: number) => (
+                {debugInfo.visibleOpportunitiesList.map((opp: any) => (
                 <div key={opp.id} className="mt-2 p-2 bg-green-50 rounded text-sm">
                   <p><strong>Title:</strong> {opp.title}</p>
                   <p><strong>Category:</strong> {opp.category}</p>

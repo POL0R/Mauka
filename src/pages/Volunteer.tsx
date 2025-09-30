@@ -90,7 +90,7 @@ const Volunteer: React.FC = () => {
         const allOpps = await opportunityService.getOpportunities({
           category: selectedCategory === 'all' ? undefined : selectedCategory
         })
-        setOpportunities(allOpps.map(opp => ({ ...opp, distance_km: 0 })))
+        setOpportunities(allOpps.map(opp => ({ ...opp, distance_km: 0, ngo_name: opp.organization_name || '' })) as any)
       }
     } catch (err) {
       console.error('Error loading opportunities:', err)

@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (_event, session) => {
         // console.log('AuthContext: Auth state changed:', event, session?.user?.id)
         setUser(session?.user ?? null)
         
@@ -104,16 +104,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
           const { data: createResult, error: createError } = await supabase.rpc('create_missing_user_profile', {
             user_id: userId
-          })
+          } as any)
           
-          if (createError || !createResult?.success) {
-            console.error('AuthContext: Failed to create profile:', createError || createResult?.error)
+          if (createError || !(createResult as any)?.success) {
+            console.error('AuthContext: Failed to create profile:', createError || (createResult as any)?.error)
             setProfile(null)
             return
           }
           
-          // console.log('AuthContext: Profile created successfully:', createResult.profile)
-          setProfile(createResult.profile)
+          // console.log('AuthContext: Profile created successfully:', (createResult as any).profile)
+          setProfile((createResult as any).profile)
         } catch (createErr) {
           console.error('AuthContext: Error creating profile:', createErr)
           setProfile(null)

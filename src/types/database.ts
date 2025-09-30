@@ -114,7 +114,8 @@ export interface LocationCache {
 
 export interface NearbyOpportunity extends VolunteerOpportunity {
   distance_km: number
-  organization_name: string
+  organization_name?: string
+  ngo_name?: string
   ngo_verification_status?: string
 }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { CheckCircle, XCircle, Eye, Clock, Building, MapPin, Calendar, Users, Heart, Tag, TrendingUp, MessageSquare, Mail, Phone } from 'lucide-react'
+import { CheckCircle, XCircle, Clock, Building, MapPin, Calendar, Users, Heart, Tag, TrendingUp, MessageSquare, Mail, Phone } from 'lucide-react'
 import { supabase } from '../lib/supabase'
-import type { NGOApplication, UserProfile, VolunteerOpportunity } from '../types/database'
 
 interface PendingNGO {
   id: string
@@ -22,7 +21,7 @@ const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'pending' | 'ngos' | 'users' | 'opportunities' | 'stats' | 'messages'>('stats')
   const [pendingNGOs, setPendingNGOs] = useState<PendingNGO[]>([])
   const [allNGOs, setAllNGOs] = useState<any[]>([])
-  const [allUsers, setAllUsers] = useState<UserProfile[]>([])
+  const [allUsers, setAllUsers] = useState<any[]>([])
   const [allOpportunities, setAllOpportunities] = useState<any[]>([])
   const [contactMessages, setContactMessages] = useState<any[]>([])
   const [stats, setStats] = useState({
@@ -124,7 +123,7 @@ const AdminDashboard: React.FC = () => {
     try {
       const { error } = await supabase
         .from('contact_messages')
-        .update({ status: 'read' })
+        .update({ status: 'read' } as any)
         .eq('id', messageId)
       
       if (error) throw error
@@ -149,14 +148,14 @@ const AdminDashboard: React.FC = () => {
       supabase.from('contact_messages').select('*', { count: 'exact', head: true }).eq('status', 'unread')
     ])
 
-    const { data: volunteers } = await supabase
+    const volunteersRes = await supabase
       .from('user_profiles')
       .select('id', { count: 'exact', head: true })
       .eq('user_type', 'volunteer')
 
     setStats({
       totalUsers: usersRes.count || 0,
-      totalVolunteers: volunteers?.count || 0,
+      totalVolunteers: volunteersRes.count || 0,
       totalNGOs: ngosRes.count || 0,
       totalOpportunities: oppsRes.count || 0,
       totalApplications: appsRes.count || 0,
@@ -175,17 +174,17 @@ const AdminDashboard: React.FC = () => {
         p_ngo_id: ngoId,
         p_admin_id: user.id,
         p_admin_notes: adminNotes || null
-      })
+      } as any)
 
       if (error) throw error
       
-      if (data?.success) {
+      if ((data as any)?.success) {
         alert('NGO approved successfully!')
         setSelectedNGO(null)
         setAdminNotes('')
         loadAllData()
       } else {
-        alert('Failed to approve NGO: ' + (data?.error || 'Unknown error'))
+        alert('Failed to approve NGO: ' + ((data as any)?.error || 'Unknown error'))
       }
     } catch (error) {
       console.error('Error approving NGO:', error)
@@ -205,17 +204,17 @@ const AdminDashboard: React.FC = () => {
         p_ngo_id: ngoId,
         p_admin_id: user.id,
         p_admin_notes: adminNotes || null
-      })
+      } as any)
 
       if (error) throw error
       
-      if (data?.success) {
+      if ((data as any)?.success) {
         alert('NGO rejected successfully!')
         setSelectedNGO(null)
         setAdminNotes('')
         loadAllData()
       } else {
-        alert('Failed to reject NGO: ' + (data?.error || 'Unknown error'))
+        alert('Failed to reject NGO: ' + ((data as any)?.error || 'Unknown error'))
       }
     } catch (error) {
       console.error('Error rejecting NGO:', error)

@@ -96,10 +96,10 @@ const Dashboard: React.FC = () => {
                 .single()
 
               if (!ngoError && ngoData) {
-                setNgoStatus(ngoData.verification_status)
+                setNgoStatus((ngoData as any).verification_status)
                 
                 // Load opportunities if approved
-                if (ngoData.verification_status === 'approved') {
+                if ((ngoData as any).verification_status === 'approved') {
                   const { data: opportunities, error: oppError } = await supabase
                     .from('volunteer_opportunities')
                     .select('*')

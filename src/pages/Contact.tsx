@@ -37,7 +37,7 @@ const Contact: React.FC = () => {
           subject: formData.subject,
           message: formData.message,
           status: 'unread'
-        })
+        } as any)
 
       if (dbError) throw dbError
 

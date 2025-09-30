@@ -267,13 +267,13 @@ export const applicationService = {
       .order('applied_at', { ascending: false })
 
     if (error) throw error
-    return data.map(app => ({
+    return data.map((app: any) => ({
       ...app,
       opportunity: app.volunteer_opportunities ? {
         ...app.volunteer_opportunities,
         organization_name: app.volunteer_opportunities.user_profiles?.full_name
       } : undefined
-    }))
+    })) as VolunteerApplication[]
   },
 
   async getApplicationsForOpportunity(opportunityId: string): Promise<VolunteerApplication[]> {
@@ -289,10 +289,10 @@ export const applicationService = {
       .order('applied_at', { ascending: false })
 
     if (error) throw error
-    return data.map(app => ({
+    return data.map((app: any) => ({
       ...app,
       volunteer: app.user_profiles
-    }))
+    })) as VolunteerApplication[]
   },
 
   async getApplicationsForMyOpportunities(): Promise<VolunteerApplication[]> {
@@ -310,11 +310,11 @@ export const applicationService = {
       .order('applied_at', { ascending: false })
 
     if (error) throw error
-    return data.map(app => ({
+    return data.map((app: any) => ({
       ...app,
       opportunity: app.volunteer_opportunities,
       volunteer: app.user_profiles
-    }))
+    })) as VolunteerApplication[]
   },
 
   async updateApplicationStatus(
@@ -328,7 +328,7 @@ export const applicationService = {
         status, 
         ngo_notes: ngoNotes,
         reviewed_at: new Date().toISOString()
-      })
+      } as any)
       .eq('id', applicationId)
       .select()
       .single()
@@ -391,7 +391,7 @@ export const locationService = {
         // Cache the result
         const { data: cachedResult, error: insertError } = await supabase
           .from('location_cache')
-          .insert(locationData)
+          .insert(locationData as any)
           .select()
           .single()
 
@@ -416,7 +416,7 @@ export const locationService = {
   ): Promise<number> {
     const { data, error } = await supabase.rpc('calculate_distance', {
       lat1, lng1, lat2, lng2
-    })
+    } as any)
 
     if (error) throw error
     return data
@@ -433,7 +433,7 @@ export const statsService = {
 
     const { data, error } = await supabase.rpc('get_user_stats', {
       user_id_param: targetUserId
-    })
+    } as any)
 
     if (error) throw error
     return data

@@ -4,7 +4,7 @@ import { Eye, EyeOff, Mail, Lock, User, MapPin, Upload, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { detectUserLocation, getLocationFromBrowser } from '../services/locationService'
-import { getCommonIndianCities } from '../services/simpleLocationService'
+// import { getCommonIndianCities } from '../services/simpleLocationService'
 
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -81,7 +81,7 @@ const Signup: React.FC = () => {
   ]
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
@@ -552,13 +552,13 @@ const Signup: React.FC = () => {
               p_longitude: formData.longitude || 0
             })
 
-          if (profileError || !profileResult?.success) {
-            console.warn('Profile creation failed:', profileError || profileResult?.error)
+          if (profileError || !(profileResult as any)?.success) {
+            console.warn('Profile creation failed:', profileError || (profileResult as any)?.error)
             // Try direct insert as fallback
             try {
               const { error: retryError } = await supabase
                 .from('user_profiles')
-                .upsert(profileData, { onConflict: 'id' })
+                .upsert(profileData as any, { onConflict: 'id' })
               
               if (retryError) {
                 console.warn('Profile creation retry failed:', retryError)
@@ -611,13 +611,13 @@ const Signup: React.FC = () => {
                   p_team_size: formData.teamSize
                 })
 
-              if (ngoError || !ngoResult?.success) {
-                console.warn('NGO application creation failed:', ngoError || ngoResult?.error)
+              if (ngoError || !(ngoResult as any)?.success) {
+                console.warn('NGO application creation failed:', ngoError || (ngoResult as any)?.error)
                 // Try direct insert as fallback
                 try {
                   const { error: retryError } = await supabase
                     .from('ngo_applications')
-                    .insert(ngoData)
+                    .insert(ngoData as any)
                   
                   if (retryError) {
                     console.warn('NGO application creation retry failed:', retryError)

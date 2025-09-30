@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckCircle, XCircle, Clock, AlertCircle } from 'lucide-react'
+import { CheckCircle, XCircle, Clock } from 'lucide-react'
 
 interface NGOStatusBadgeProps {
   status: 'pending' | 'approved' | 'rejected'
