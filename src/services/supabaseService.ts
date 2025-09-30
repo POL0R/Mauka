@@ -5,7 +5,6 @@ import type {
   VolunteerOpportunity, 
   VolunteerApplication,
   NearbyOpportunity,
-  NearbyVolunteer,
   UserStats,
   LocationCache
 } from '../types/database'
@@ -32,7 +31,7 @@ export const userProfileService = {
 
     const { data, error } = await supabase
       .from('user_profiles')
-      .update(updates)
+      .update(updates as any)
       .eq('id', user.id)
       .select()
       .single()
@@ -64,7 +63,7 @@ export const ngoApplicationService = {
       .insert({
         ...application,
         user_id: user.id
-      })
+      } as any)
       .select()
       .single()
 
@@ -92,7 +91,7 @@ export const ngoApplicationService = {
 
     const { data, error } = await supabase
       .from('ngo_applications')
-      .update(updates)
+      .update(updates as any)
       .eq('user_id', user.id)
       .select()
       .single()
@@ -113,7 +112,7 @@ export const opportunityService = {
       .insert({
         ...opportunity,
         ngo_id: user.id
-      })
+      } as any)
       .select()
       .single()
 
@@ -135,7 +134,7 @@ export const opportunityService = {
 
     if (ngoError) throw ngoError
 
-    const approvedNGOIds = approvedNGOs?.map(ngo => ngo.user_id) || []
+    const approvedNGOIds = approvedNGOs?.map((ngo: any) => ngo.user_id) || []
 
     if (approvedNGOIds.length === 0) {
       return [] // No approved NGOs, return empty array
@@ -165,7 +164,7 @@ export const opportunityService = {
       .order('created_at', { ascending: false })
 
     if (error) throw error
-    return data.map(item => ({
+    return data.map((item: any) => ({
       ...item,
       organization_name: item.user_profiles?.full_name
     }))
@@ -185,7 +184,7 @@ export const opportunityService = {
       radius_km: radiusKm,
       category_filter: category,
       limit_count: limit
-    })
+    } as any)
 
     if (error) throw error
     return data
@@ -204,14 +203,14 @@ export const opportunityService = {
     if (error) throw error
     return {
       ...data,
-      organization_name: data.user_profiles?.full_name
+      organization_name: (data as any).user_profiles?.full_name
     }
   },
 
   async updateOpportunity(id: string, updates: Partial<VolunteerOpportunity>): Promise<VolunteerOpportunity> {
     const { data, error } = await supabase
       .from('volunteer_opportunities')
-      .update(updates)
+      .update(updates as any)
       .eq('id', id)
       .select()
       .single()
@@ -241,7 +240,7 @@ export const applicationService = {
       .insert({
         ...application,
         volunteer_id: user.id
-      })
+      } as any)
       .select()
       .single()
 
