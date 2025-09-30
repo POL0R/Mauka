@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, Mail, Lock, User, MapPin, Upload, X } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Eye, EyeOff, Mail, Lock, User, MapPin, Upload, X, Sparkles, Check } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { detectUserLocation, getLocationFromBrowser } from '../services/locationService'
@@ -647,22 +648,46 @@ const Signup: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-16 pb-8">
-      <div className="max-w-md w-full mx-4">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50/30 to-orange-50 flex items-center justify-center pt-16 pb-8 relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 -left-48 w-96 h-96 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+        <div className="absolute bottom-1/4 -right-48 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-md w-full mx-4 relative z-10"
+      >
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center">
-              <MapPin className="w-6 h-6 text-white" />
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="flex items-center justify-center space-x-2 mb-4"
+          >
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+              <MapPin className="w-7 h-7 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">Mauka</span>
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Join Mauka</h1>
-          <p className="text-gray-600">Start your journey of making a difference</p>
+            <span className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">Mauka</span>
+          </motion.div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-2">Join Mauka</h1>
+          <p className="text-gray-600 flex items-center justify-center gap-2">
+            <Sparkles className="w-4 h-4 text-orange-500" />
+            Start your journey of making a difference
+          </p>
         </div>
 
         {/* Signup Form */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-gray-100"
+        >
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-3">
@@ -1285,18 +1310,23 @@ const Signup: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Login Link */}
-        <div className="text-center mt-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-center mt-8"
+        >
           <p className="text-gray-600">
             Already have an account?{' '}
-            <Link to="/login" className="text-orange-600 hover:text-orange-700 font-medium">
-              Sign in here
+            <Link to="/login" className="font-semibold text-transparent bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text hover:from-orange-700 hover:to-pink-700 transition-all">
+              Sign in here →
             </Link>
           </p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   )
 }

@@ -1,30 +1,44 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { CheckCircle, Users, MapPin, Award, ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { CheckCircle, Users, MapPin, Award, ArrowRight, Sparkles } from 'lucide-react'
 
 const NGO: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gradient-to-b from-white via-orange-50/30 to-white overflow-hidden pt-16">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-6">
-            <h1 className="text-4xl md:text-5xl font-bold">Partner with Mauka</h1>
-            <p className="text-xl text-orange-100 max-w-2xl mx-auto">
+      <section className="relative bg-gradient-to-r from-orange-600 via-pink-600 to-orange-700 text-white py-24 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full filter blur-3xl animate-blob"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
+        </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center space-y-8"
+          >
+            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+              <Sparkles className="w-4 h-4" />
+              <span className="text-sm font-medium">For NGOs & Organizations</span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold">Partner with Mauka</h1>
+            <p className="text-2xl text-orange-50 max-w-2xl mx-auto">
               Connect with passionate volunteers, expand your impact, and make a real difference in your community
             </p>
             <div className="pt-4">
               <Link
                 to="/signup"
-                className="inline-flex items-center px-8 py-4 bg-white text-orange-600 rounded-lg text-lg font-semibold hover:bg-orange-50 transition-colors shadow-lg"
+                className="group inline-flex items-center px-10 py-5 bg-white text-orange-600 rounded-xl text-lg font-bold hover:bg-orange-50 hover:scale-105 transition-all shadow-2xl"
               >
                 Register Your NGO
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
 
       {/* Benefits Section */}
       <div className="bg-white py-16">

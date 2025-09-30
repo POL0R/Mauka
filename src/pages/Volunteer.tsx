@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, MapPin, Filter, Heart, Clock, Users, Star, Calendar, X, ExternalLink } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Search, MapPin, Filter, Heart, Clock, Users, Star, Calendar, X, ExternalLink, Sparkles } from 'lucide-react'
 import { opportunityService, userProfileService, applicationService } from '../services/supabaseService'
 import { useAuth } from '../contexts/AuthContext'
 import LocationUpdatePrompt from '../components/LocationUpdatePrompt'
@@ -228,16 +229,29 @@ const Volunteer: React.FC = () => {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-orange-50/20 to-gray-50 pt-16">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold">Find Volunteer Opportunities</h1>
-            <p className="text-xl text-orange-100 max-w-2xl mx-auto">
+      <div className="relative bg-gradient-to-r from-orange-600 via-pink-600 to-orange-700 text-white py-20 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-64 h-64 bg-white rounded-full filter blur-3xl animate-blob"></div>
+          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-white rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center space-y-6"
+          >
+            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+              <Sparkles className="w-4 h-4" />
+              <span className="text-sm font-medium">Discover Your Next Opportunity</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold">Find Volunteer Opportunities</h1>
+            <p className="text-xl text-orange-50 max-w-2xl mx-auto">
               Discover meaningful ways to make a difference in your community
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -255,7 +269,12 @@ const Volunteer: React.FC = () => {
       )}
 
       {/* Search and Filter Section */}
-      <div className="bg-white shadow-sm border-b border-gray-200 py-6">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-100 py-6 sticky top-16 z-40"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
@@ -303,7 +322,7 @@ const Volunteer: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Results Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -357,8 +376,18 @@ const Volunteer: React.FC = () => {
         {/* Opportunities Grid */}
         {!loading && !error && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {filteredOpportunities.map((opportunity) => (
-              <div key={opportunity.id} className="card p-6 hover:shadow-xl transition-all duration-300">
+            {filteredOpportunities.map((opportunity, index) => (
+              <motion.div
+                key={opportunity.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                whileHover={{ y: -4, scale: 1.01 }}
+                className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden"
+              >
+                {/* Gradient accent on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
                 <div className="space-y-4">
                   {/* Header */}
                   <div className="flex justify-between items-start">
@@ -443,7 +472,8 @@ const Volunteer: React.FC = () => {
                         ? 'Apply Now' 
                         : 'Sign in to Apply'}
                     </button>
-                    <button 
+                    <motion.button
+                      whileTap={{ scale: 0.9 }}
                       onClick={(e) => {
                         e.stopPropagation()
                         toggleFavorite(opportunity.id)
@@ -455,10 +485,11 @@ const Volunteer: React.FC = () => {
                       }`}
                     >
                       <Heart className={`w-4 h-4 ${favoriteOpportunities.has(opportunity.id) ? 'fill-current' : ''}`} />
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
-              </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         )}
